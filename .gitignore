@@ -1,0 +1,5 @@
+*.exe
+*.ilk
+*.pdb
+*.iml
+cmake-build-debug/

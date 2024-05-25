@@ -3,4 +3,5 @@
 *.pdb
 *.iml
 .idea
+.vscode
 cmake-build-debug/

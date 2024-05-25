@@ -48,14 +48,16 @@ namespace WebCpp
 
         this->hs_aSock = accept(hs_lSock, NULL, NULL);
         std::cout << "[LOG] CLIENT CONNECTED" << std::endl;
-        char BUFF[30720];
-        char MESSAGE[30720] = "HTTP/1.1 200 OK \
+
+        this->hs_response.resize(30720);
+        this->hs_response = "HTTP/1.1 200 OK \
         Content-Type: text/html; charset=utf-8 \
         Connection: Closed";
+        this->hs_request.resize(30720);
 
-        recv(this->hs_aSock, BUFF, 30720, 0);
-        std::cout << BUFF << std::endl;
-        send(this->hs_aSock, MESSAGE, 30720, 0);
+        recv(this->hs_aSock, const_cast<char *>(this->hs_request.c_str()), this->hs_request.size(), 0);
+        std::cout << this->hs_request.c_str() << std::endl;
+        // send(this->hs_aSock, MESSAGE, 30720, 0);
 
         return 0;
     };

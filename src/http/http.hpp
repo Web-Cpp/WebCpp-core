@@ -3,8 +3,9 @@
 #define HTTP_HPP
 
 #include <WinSock2.h>
-#include <iostream>
 #include <WS2tcpip.h>
+#include <iostream>
+#include <sstream>
 #include <thread>
 #include <string>
 #include <string_view>
@@ -15,19 +16,20 @@ namespace WebCpp
     {
     private:
         WSADATA hs_wsa;
-        SOCKET hs_lSock, hs_aSock;
-        int hs_port;
-        std::string hs_addr;
-        std::string hs_request;
-        std::string hs_response;
-        SOCKADDR_IN hs_server;
+        SOCKET hs_lstnSock, hs_connSock;
+        int hs_port;             // the port on which the server runs
+        std::string hs_addr;     // the addr of the server
+        std::string hs_request;  // the request from client
+        std::string hs_response; // the response from client
+        SOCKADDR_IN hs_server;   // the server struct consisted of communication types
 
     public:
-        HttpServer(int p, std::string_view a);
+        HttpServer(int port, std::string_view addr);
         int initServer();
         ~HttpServer();
 
     private:
+        int buildResponse(std::string &msg);
         int clientHandler();
     };
 }

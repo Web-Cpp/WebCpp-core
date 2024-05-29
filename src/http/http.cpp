@@ -71,6 +71,7 @@ namespace WebCpp
         return 0;
     }
 
+    // The http request structure function code
     HttpServer::HttpRequest::HttpRequest(SOCKET sen) : sender{sen} {}
 
     void HttpServer::HttpRequest::read() noexcept
@@ -94,7 +95,7 @@ namespace WebCpp
                                                       : Methods::Delete;
 
         std::getline(st_rLine, word, ' ');
-        u.path = word;
+        u.setVar(word, word);
         word.clear();
 
         while (std::getline(st_headers, word))
@@ -104,7 +105,32 @@ namespace WebCpp
             std::cout << ref.first << ref.second << std::endl;
     }
 
-    HttpServer::HttpResponse::HttpResponse(SOCKET rec) : reciever{rec} {}
+    // The Body Structure functions
+    void HttpServer::Body::setRaw(byte data) noexcept
+    {
+        this->raw.push_back(data);
+    }
+
+    std::vector<byte> HttpServer::Body::getRaw() noexcept
+    {
+        return this->raw;
+    }
+
+    std::string HttpServer::Body::toString() noexcept
+    {
+        std::ostringstream strBody{};
+        for (auto &ref : this->raw)
+        {
+            strBody << ref;
+        }
+
+        return strBody.str();
+    }
+
+    // The Http Response Structure function code
+    HttpServer::HttpResponse::HttpResponse(SOCKET rec) : reciever{rec}
+    {
+    }
 
     void HttpServer::HttpResponse::buildBody(std::string &b)
     {
@@ -134,6 +160,7 @@ namespace WebCpp
             std::cout << "Header send failed" << std::endl;
     }
 
+    // Http Server Destructor
     HttpServer::~HttpServer()
     {
         closesocket(this->hs_lstnSock);

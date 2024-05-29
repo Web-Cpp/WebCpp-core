@@ -45,15 +45,20 @@ namespace WebCpp
             std::vector<byte> raw;
 
         public:
-            std::string toString();
-            std::vector<byte> getRaw();
+            std::string toString() noexcept;
+            std::vector<byte> getRaw() noexcept;
+            void setRaw(byte data) noexcept;
         };
 
         // the target UTI of request and query
         struct URL
         {
+        private:
             std::string path;
-            std::unordered_map<std::string, std::string> query;
+            std::string query;
+
+        public:
+            void setVar(std::string &p, std::string &q) noexcept;
             std::string toString();
         };
 

@@ -99,7 +99,7 @@ namespace WebCpp
 
     private:
         int buildHttpResponse(HttpResponse &res);
-        int httpClientHandler();
+        static int httpClientHandler(HttpServer* http);
         int parseHttpRequest(HttpRequest &req);
     };
 }

@@ -47,16 +47,16 @@ namespace WebCpp
 
         while ((this->hs_connSock = accept(hs_lstnSock, NULL, NULL)) != SOCKET_ERROR)
         {
-            std::thread th(&httpClientHandler, this);
+            std::thread th(httpClientHandler, this);
             th.detach();
         }
         return 0;
     };
 
-    int HttpServer::httpClientHandler()
+    int HttpServer::httpClientHandler(HttpServer* http)
     {
-        HttpRequest req(this->hs_connSock);
-        HttpResponse res(this->hs_connSock);
+        HttpRequest req(http->hs_connSock);
+        HttpResponse res(http->hs_connSock);
         URL url;
         Body bod;
 
